@@ -89,6 +89,46 @@ I haven't tested it myself just yet, but theoretically this would solve
 the `"After updating the screen +/- 300 times the
 display stops responding"` bug.
 
+### Built-in Divoom Tools
+#### Countdown Timer
+There is a built-in countdown timer implement in the Pixoo, devices.
+`set_timer` method initializes this timer to a defined period of time (minutes + seconds).
+
+```python
+pixoo = Pixoo()
+pixoo.set_timer(minutes=5, seconds=30)  # Set timer to 5 minutes 30 seconds
+```
+
+#### Stopwatch timer
+Stopwatch timer is a clock that counts up from 00:00. It can be started, paused and reset.
+```python
+pixoo = Pixoo()
+
+# Get StopWatch object from pixoo instance
+stop_watch = pixoo.get_stop_watch()
+
+stop_watch.start()  # Start the stopwatch
+stop_watch.pause()  # Pause the stopwatch
+stop_watch.reset()  # Reset the stopwatch
+```
+
+#### Score Board
+Pixoo has a buiil-in Score board where you can set the score of two teams.
+```python
+pixoo = Pixoo()
+
+# Get ScoreBoard object from pixoo instance
+score_board = pixoo.get_score_board()
+
+# Increase score of blue team
+score_board.blue_team_score += 1
+
+# Increase score of red team
+score_board.red_team_score += 1
+
+# Set score both teams in single call
+score_board.set_score(blue_team_score=1, red_team_score=2)
+```
 ## Special thanks
 
 ### PICO-8's fantastic low-res font
