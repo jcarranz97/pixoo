@@ -70,9 +70,9 @@ class StopWatch(PixooBaseApi):
             status=1,  # Start
         )
 
-    def stop_counter(self):
+    def pause_counter(self):
         """ Stop stopwatch counter """
         self.send_command(
             command="Tools/SetStopWatch",
-            status=0,  # Stop
+            status=0,  # Stop / Pause counter
         )
