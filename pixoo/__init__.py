@@ -352,13 +352,10 @@ class Pixoo(PixooBaseApi):
         if self.simulated:
             return
 
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Channel/OnOffScreen',
-            'OnOff': 1 if on else 0
-        }))
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
+        self.send_command(
+            command="Channel/OnOffScreen",
+            on_off=1 if on else 0,
+        )
 
     def set_screen_off(self):
         self.set_screen(False)
