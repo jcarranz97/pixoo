@@ -319,14 +319,11 @@ class Pixoo(PixooBaseApi):
         if self.simulated:
             return
 
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Channel/SetIndex',
-            'SelectIndex': int(channel)
-        }))
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
-        
+        self.send_command(
+            command="Channel/SetIndex",
+            select_index=channel,
+        )
+
     def set_clock(self, clock_id):
         # This won't be possible
         if self.simulated:
