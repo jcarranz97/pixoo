@@ -438,7 +438,7 @@ class Pixoo(PixooBaseApi):
 
     def __reset_counter(self):
         if self.debug:
-            print(f'[.] Resetting counter remotely')
+            print('[.] Resetting counter remotely')
 
         # This won't be possible
         if self.simulated:
