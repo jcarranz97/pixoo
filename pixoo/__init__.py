@@ -329,13 +329,10 @@ class Pixoo(PixooBaseApi):
         if self.simulated:
             return
 
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Channel/SetClockSelectId',
-            'ClockId': clock_id
-        }))
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
+        self.send_command(
+            command="Channel/SetClockSelectId",
+            clock_id=clock_id,
+        )
 
     def set_custom_channel(self, index):
         self.set_custom_page(index)
