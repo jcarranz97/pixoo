@@ -444,12 +444,9 @@ class Pixoo(PixooBaseApi):
         if self.simulated:
             return
 
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Draw/ResetHttpGifId'
-        }))
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
+        self.send_command(
+            command="Draw/ResetHttpGifId",
+        )
 
     @property
     def url(self):
@@ -460,6 +457,11 @@ class Pixoo(PixooBaseApi):
     def address(self):
         """ Get device address """
         return self.__address
+
+    @property
+    def buffer(self):
+        """ Get buffer of device """
+        return self.__buffer
 
 
 __all__ = (Channel, ImageResampleMode, Pixoo, TextScrollDirection)
