@@ -367,13 +367,11 @@ class Pixoo(PixooBaseApi):
         # This won't be possible
         if self.simulated:
             return
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Channel/SetEqPosition',
-            'EqPosition': equalizer_position
-        }))
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
+
+        self.send_command(
+            command="Channel/SetEqPosition",
+            eq_position=equalizer_position,
+        )
 
     def __clamp_location(self, xy):
         return clamp(xy[0], 0, self.size - 1), clamp(xy[1], 0, self.size - 1)
