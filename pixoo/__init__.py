@@ -9,6 +9,7 @@ from .simulator import Simulator, SimulatorConfig
 from pixoo.find_device import get_pixoo_devices as _get_pixoo_devices
 import pixoo.exceptions as _exceptions
 from pixoo.api import PixooBaseApi
+from pixoo.tools import ScoreBoard, StopWatch
 
 
 def clamp(value, minimum=0, maximum=255):
@@ -452,6 +453,31 @@ class Pixoo(PixooBaseApi):
     def buffer(self):
         """ Get buffer of device """
         return self.__buffer
+
+    def set_timer(self, minutes: int, seconds: int, start_counter: bool = True):
+        """ Start countdown timer in divoom device
+
+        Arguments:
+            - minutes: Minutes to countdown.
+            - seconds: Seconds to countdown.
+            - start_counter: If true, counter will start counting down immediately.
+
+        """
+        # API: http://docin.divoom-gz.com/web/#/5/50
+        self.send_command(
+            command="Tools/SetTimer",
+            minute=minutes,
+            second=seconds,
+            status=int(start_counter),  # Always enable timer
+        )
+
+    def get_score_board(self):
+        """ Get score board object """
+        return ScoreBoard(self.address)
+
+    def get_stop_watch(self):
+        """ Get stop watch object """
+        return StopWatch(self.address)
 
 
 __all__ = (Channel, ImageResampleMode, Pixoo, TextScrollDirection)
