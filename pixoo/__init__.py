@@ -1,7 +1,6 @@
 import base64
 from enum import IntEnum
 
-import requests
 from PIL import Image, ImageOps
 
 from ._colors import Palette
@@ -386,14 +385,10 @@ class Pixoo(PixooBaseApi):
             self.__counter = 1
             return
 
-        response = requests.post(self.__url, '{"Command": "Draw/GetHttpGifId"}')
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
-        else:
-            self.__counter = int(data['PicId'])
-            if self.debug:
-                print('[.] Counter loaded and stored: ' + str(self.__counter))
+        data = self.send_command(command="Draw/GetHttpGifId")
+        self.__counter = int(data['PicId'])
+        if self.debug:
+            print('[.] Counter loaded and stored: ' + str(self.__counter))
 
     def __send_buffer(self):
 
