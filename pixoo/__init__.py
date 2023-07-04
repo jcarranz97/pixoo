@@ -1,5 +1,4 @@
 import base64
-import json
 from enum import IntEnum
 
 import requests
@@ -418,23 +417,19 @@ class Pixoo(PixooBaseApi):
             return
 
         # Encode the buffer to base64 encoding
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Draw/SendHttpGif',
-            'PicNum': 1,
-            'PicWidth': self.size,
-            'PicOffset': 0,
-            'PicID': self.__counter,
-            'PicSpeed': 1000,
-            'PicData': str(base64.b64encode(bytearray(self.__buffer)).decode())
-        }))
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
-        else:
-            self.__buffers_send = self.__buffers_send + 1
+        self.send_command(
+            command="Draw/SendHttpGif",
+            pic_num=1,
+            pic_width=self.size,
+            pic_offset=0,
+            pic_id=self.__counter,
+            pic_speed=1000,
+            pic_data=str(base64.b64encode(bytearray(self.__buffer)).decode()),
+        )
+        self.__buffers_send = self.__buffers_send + 1
 
-            if self.debug:
-                print(f'[.] Pushed {self.__buffers_send} buffers')
+        if self.debug:
+            print(f'[.] Pushed {self.__buffers_send} buffers')
 
     def __reset_counter(self):
         if self.debug:
