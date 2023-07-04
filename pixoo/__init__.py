@@ -479,5 +479,19 @@ class Pixoo(PixooBaseApi):
         """ Get stop watch object """
         return StopWatch(self.address)
 
+    def start_noise_status(self):
+        """ Start noise status """
+        self.send_command(
+            command="Tools/SetNoiseStatus",
+            noise_status=1,  # Start noise status
+        )
+
+    def stop_noise_status(self):
+        """ Stop noise status """
+        self.send_command(
+            command="Tools/SetNoiseStatus",
+            noise_status=0,  # Stop noise status
+        )
+
 
 __all__ = (Channel, ImageResampleMode, Pixoo, TextScrollDirection)

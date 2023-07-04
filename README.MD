@@ -129,6 +129,16 @@ score_board.red_team_score += 1
 # Set score both teams in single call
 score_board.set_score(blue_team_score=1, red_team_score=2)
 ```
+
+#### Noise Status
+Pixoo has a built-in microphone which can be used to get noise level in the room.
+```python
+pixoo = Pixoo()
+
+pixoo.start_noise_status()  # Start noise status
+pixoo.stop_noise_status()  # Stop noise status
+```
+
 ## Special thanks
 
 ### PICO-8's fantastic low-res font
