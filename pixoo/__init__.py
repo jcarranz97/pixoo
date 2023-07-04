@@ -10,6 +10,7 @@ from ._font import retrieve_glyph
 from .simulator import Simulator, SimulatorConfig
 from pixoo.find_device import get_pixoo_devices as _get_pixoo_devices
 import pixoo.exceptions as _exceptions
+from pixoo.api import PixooBaseApi
 
 
 def clamp(value, minimum=0, maximum=255):
@@ -62,7 +63,7 @@ class TextScrollDirection(IntEnum):
     RIGHT = 1
 
 
-class Pixoo:
+class Pixoo(PixooBaseApi):
     __buffer = []
     __buffers_send = 0
     __counter = 0
@@ -80,6 +81,7 @@ class Pixoo:
             self.__address = self.__get_first_pixoo_device_address()
         else:
             self.__address = address
+        super().__init__(self.__address)
         self.debug = debug
         self.size = size
         self.simulated = simulated
@@ -287,23 +289,19 @@ class Pixoo:
 
         # Make sure the identifier is valid
         identifier = clamp(identifier, 0, 19)
-
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Draw/SendHttpText',
-            'TextId': identifier,
-            'x': xy[0],
-            'y': xy[1],
-            'dir': direction,
-            'font': font,
-            'TextWidth': width,
-            'speed': movement_speed,
-            'TextString': text,
-            'color': rgb_to_hex_color(color)
-        }))
-
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
+        self.send_command(
+            command="Draw/SendText",
+            text_id=identifier,
+            x=xy[0],
+            y=xy[1],
+            dir=direction,
+            font=font,
+            text_width=width,
+            speed=movement_speed,
+            text_string=text,
+            color=rgb_to_hex_color(color),
+            align=1,  # Align text was not previously defined, so assuming 1
+        )
 
     def set_brightness(self, brightness):
         # This won't be possible
