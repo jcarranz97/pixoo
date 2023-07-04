@@ -339,13 +339,10 @@ class Pixoo(PixooBaseApi):
         self.set_channel(3)
 
     def set_custom_page(self, index):
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Channel/SetCustomPageIndex',
-            'CustomPageIndex': index
-        }))
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
+        self.send_command(
+            command="Channel/SetCustomPageIndex",
+            custom_page_index=index,
+        )
 
     def set_face(self, face_id):
         self.set_clock(face_id)
