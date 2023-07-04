@@ -309,13 +309,10 @@ class Pixoo(PixooBaseApi):
             return
 
         brightness = clamp(brightness, 0, 100)
-        response = requests.post(self.__url, json.dumps({
-            'Command': 'Channel/SetBrightness',
-            'Brightness': brightness
-        }))
-        data = response.json()
-        if data['error_code'] != 0:
-            self.__error(data)
+        self.send_command(
+            command="Channel/SetBrightness",
+            brightness=brightness,
+        )
 
     def set_channel(self, channel):
         # This won't be possible
